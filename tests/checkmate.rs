@@ -1,5 +1,6 @@
 use schaakmaat::chess::{Chess, Color, Outcome, Piece};
 use schaakmaat::computer;
+use schaakmaat::pos::Pos;
 
 const MATE_IN_THREE: Chess = Chess {
     board: [
@@ -76,6 +77,7 @@ const MATE_IN_THREE: Chess = Chess {
         ],
     ],
     turn: Color::White,
+    kings: [Pos::new(6, 7), Pos::new(4, 5)],
 };
 
 const MATE_IN_TWO: Chess = Chess {
@@ -153,6 +155,7 @@ const MATE_IN_TWO: Chess = Chess {
         ],
     ],
     turn: Color::White,
+    kings: [Pos::new(6, 7), Pos::new(7, 0)],
 };
 
 const MATE_IN_ONE: Chess = Chess {
@@ -212,6 +215,7 @@ const MATE_IN_ONE: Chess = Chess {
         ],
     ],
     turn: Color::White,
+    kings: [Pos::new(7, 7), Pos::new(6, 0)],
 };
 
 #[test]

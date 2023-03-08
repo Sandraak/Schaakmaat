@@ -10,6 +10,9 @@ use crate::pos::{Pos, Shift};
 pub struct Chess {
     pub board: [[Option<Piece>; 8]; 8],
     pub turn: Color,
+    /// Keeps track of the current positions of both kings. White's king's position is stored on
+    /// index 0 and black's on 1.
+    pub kings: [Pos; 2],
 }
 
 impl Chess {
@@ -63,7 +66,9 @@ impl Chess {
 
         let turn = Color::default();
 
-        Chess { board, turn }
+        let kings = [Pos::new(4, 7), Pos::new(4, 0)];
+
+        Chess { board, turn, kings }
     }
 
     /// Checks whether a given position is on the board.
@@ -179,6 +184,9 @@ impl Chess {
 
     /// Performs a move, changing the board state.
     pub fn perform(&mut self, m: Move) {
+        if self[m.from].unwrap().kind == Kind::King {
+            self.kings[self.turn.king_index()] = m.to;
+        }
         self[m.to] = self[m.from].take();
         self.turn = !self.turn;
     }
@@ -226,13 +234,7 @@ impl Chess {
 
     /// Checks whether the given player is currently checked.
     fn is_checked(&self, player: Color) -> bool {
-        let king = self
-            .pieces()
-            .find_map(|(pos, piece)| {
-                (piece.kind == Kind::King && piece.color == player).then_some(pos)
-            })
-            .expect("no king");
-
+        let king = self.kings[player.king_index()];
         self.unsafe_moves(!player).any(|m| m.to == king)
     }
 
@@ -458,6 +460,13 @@ impl Color {
                 Color::Black => score < best,
                 Color::White => score > best,
             },
+        }
+    }
+
+    fn king_index(&self) -> usize {
+        match self {
+            Color::Black => 1,
+            Color::White => 0,
         }
     }
 }
