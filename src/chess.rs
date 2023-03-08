@@ -8,7 +8,7 @@ use crate::pos::{Pos, Shift};
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct Chess {
-    board: [[Option<Piece>; 8]; 8],
+    pub board: [[Option<Piece>; 8]; 8],
     pub turn: Color,
 }
 

@@ -1,8 +1,5 @@
-use crate::chess::{Chess, Outcome};
-
-mod chess;
-mod computer;
-mod pos;
+use schaakmaat::chess::{Chess, Outcome};
+use schaakmaat::computer;
 
 fn main() {
     let mut state = Chess::new();
