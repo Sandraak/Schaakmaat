@@ -19,9 +19,7 @@ jobs:
           toolchain: nightly
 
       - name: Run benchmarks
-        uses: actions-rs/cargo@v1
-        with:
-          command: bench
+        run: cargo +nightly bench
 
   test:
     runs-on: ubuntu-latest
