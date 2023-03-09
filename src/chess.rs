@@ -123,7 +123,7 @@ impl Chess {
                     let to = from + step;
                     let too = from + step * 2;
 
-                    let step = self[to].is_none().then(|| Move::new(from, to));
+                    let step = (self[to].is_none() && Self::on_board(&to)).then(|| Move::new(from, to));
                     let leap = (from.y() == start_row && self[to].is_none() && self[too].is_none())
                         .then(|| Move::new(from, too));
 
