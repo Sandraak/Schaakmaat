@@ -225,13 +225,12 @@ const MATE_IN_ONE: Chess = Chess {
 };
 
 #[bench]
-#[ignore]
 fn mate_in_three(bencher: &mut Bencher) {
     bencher.iter(|| {
         let mut state = MATE_IN_THREE;
 
         for _ in 0..5 {
-            let best_move = computer::minimax(&state, 5).m.unwrap();
+            let best_move = computer::minimax(&state, 5, i16::MIN, i16::MAX).m.unwrap();
             state.perform(best_move);
         }
 
@@ -245,7 +244,7 @@ fn mate_in_two(bencher: &mut Bencher) {
         let mut state = MATE_IN_TWO;
 
         for _ in 0..3 {
-            let best_move = computer::minimax(&state, 3).m.unwrap();
+            let best_move = computer::minimax(&state, 3, i16::MIN, i16::MAX).m.unwrap();
             state.perform(best_move);
         }
 
@@ -259,7 +258,7 @@ fn mate_in_one(bencher: &mut Bencher) {
         let mut state = MATE_IN_ONE;
 
         for _ in 0..1 {
-            let best_move = computer::minimax(&state, 1).m.unwrap();
+            let best_move = computer::minimax(&state, 1, i16::MIN, i16::MAX).m.unwrap();
             state.perform(best_move);
         }
 

@@ -123,7 +123,8 @@ impl Chess {
                     let to = from + step;
                     let too = from + step * 2;
 
-                    let step = self[to].is_none().then(|| Move::new(from, to));
+                    let step =
+                        (self[to].is_none() && Self::on_board(&to)).then(|| Move::new(from, to));
                     let leap = (from.y() == start_row && self[to].is_none() && self[too].is_none())
                         .then(|| Move::new(from, too));
 
@@ -451,18 +452,6 @@ pub enum Color {
 }
 
 impl Color {
-    /// Checks whether a new game state evaluation is better than the previous best for the current
-    /// player.
-    pub fn improves(&self, score: i16, best_score: Option<i16>) -> bool {
-        match best_score {
-            None => true,
-            Some(best) => match self {
-                Color::Black => score < best,
-                Color::White => score > best,
-            },
-        }
-    }
-
     fn king_index(&self) -> usize {
         match self {
             Color::Black => 1,
